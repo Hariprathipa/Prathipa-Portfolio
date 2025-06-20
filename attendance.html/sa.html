@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Attendance System</title>
+  <style>
+    body {
+      font-family: Arial;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding-top: 100px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>Smart Attendance System</h2>
+  <input type="text" id="studentId" placeholder="Enter Student ID">
+  <button onclick="markAttendance()">Mark Attendance</button>
+  <div id="result"></div>
+
+  <script>
+    function markAttendance() {
+      const studentId = document.getElementById("studentId").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (studentId === "") {
+        resultDiv.style.color = "red";
+        resultDiv.textContent = "Please enter Student ID.";
+        return;
+      }
+
+      fetch("mark_attendance.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "studentId=" + encodeURIComponent(studentId)
+      })
+      .then(response => response.text())
+      .then(data => {
+        resultDiv.style.color = "green";
+        resultDiv.textContent = data;
+        document.getElementById("studentId").value = "";
+      })
+      .catch(error => {
+        resultDiv.style.color = "red";
+        resultDiv.textContent = "Error: " + error;
+      });
+    }
+  </script>
+</body>
+</html>
