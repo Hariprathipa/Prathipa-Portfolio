@@ -1,5 +1,5 @@
 .banner{
-    background-image: url(/.Portfolio/css/coffee-cup-latte-art-laptop-corner-green-leaves-white-background-ample-copy-space-suitable-work-home-351906231.webp);
+    background-image: url(banner-bg.webp);
     padding:230px;
     background-size: cover;
     background-repeat: no-repeat;
@@ -8,4 +8,14 @@
 
 .skills-padding{
     padding: 70px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+
+}
+
+.skill-card {
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
