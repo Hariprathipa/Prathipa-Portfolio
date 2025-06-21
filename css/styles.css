@@ -14,20 +14,6 @@
 
 }
 
-.skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-}
-
-@media (max-width: 768px) {
-    .skills-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-
 .skill-card {
     text-align: center;
     border-radius: 10px;
