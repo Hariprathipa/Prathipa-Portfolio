@@ -1,0 +1,11 @@
+.banner{
+    background-image: url(/Portfolio/css/coffee-cup-latte-art-laptop-corner-green-leaves-white-background-ample-copy-space-suitable-work-home-351906231.webp);
+    padding:230px;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.skills-padding{
+    padding: 70px 0;
+}
