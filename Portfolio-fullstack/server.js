@@ -6,8 +6,7 @@ const path = require('path');
 const app = express();
 
 // ✅ 1. Connect to MongoDB
-mongoose.connect('mongodb+srv://prathipa296:prathipa9626@cluster0.sn9rnos.mongodb.net/portfolio?retryWrites=true&w=majority')
-
+mongoose.connect(process.env.MONGODB_URI);
 // ✅ 2. Create Schema + Model
 const contactSchema = new mongoose.Schema({
   name: String,
