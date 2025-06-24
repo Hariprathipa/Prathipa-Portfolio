@@ -2,11 +2,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv').config(); // ✅ Load .env file
+console.log("🔍 Loaded URI:", process.env.MONGODB_URI); // ✅ DEBUG check
+
 
 const app = express();
 
 // ✅ 1. Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log("✅ MongoDB Connected");
+}).catch(err => {
+  console.error("❌ MongoDB Connection Error:", err);
+});
+
 // ✅ 2. Create Schema + Model
 const contactSchema = new mongoose.Schema({
   name: String,
