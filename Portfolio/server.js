@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config(); // ✅ Load .env file
-console.log("🔍 Loaded URI:", process.env.MONGODB_URI); // ✅ DEBUG check
+
+console.log("🔍 Loaded URI:", process.env.MONGODB_URI); // ✅ Debug check
 
 const app = express();
 
@@ -38,7 +39,7 @@ app.post('/contact', async (req, res) => {
     const { name, email, mobile, message } = req.body;
 
     const newContact = new Contact({ name, email, mobile, message });
-    await newContact.save(); // 🔥 This actually saves to MongoDB
+    await newContact.save(); // ✅ Save to MongoDB
 
     console.log("✅ Message saved:", newContact);
     res.send('✅ Message received and saved to MongoDB!');
@@ -48,7 +49,7 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// ✅ 5. Start the server with dynamic PORT
+// ✅ 5. Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(🚀 Server running on port ${PORT});
