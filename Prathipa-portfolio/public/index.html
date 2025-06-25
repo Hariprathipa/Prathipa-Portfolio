@@ -151,20 +151,30 @@ Higher Secondary | Passed with 82%
           </form>
  <script>
   const form = document.getElementById("contactForm");
+
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const formData = new FormData(form);
-    const response = await fetch("/submit", {
+    const formData = {
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      message: form.message.value
+    };
+
+    const response = await fetch("/contact", {
       method: "POST",
-      body: formData
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
     });
 
     if (response.ok) {
-      alert("Message received!");
+      alert("✅ Message received!");
       form.reset();
     } else {
-      alert("Something went wrong. Please try again.");
+      alert("❌ Something went wrong. Please try again.");
     }
   });
 </script>
