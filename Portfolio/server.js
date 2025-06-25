@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config(); // ✅ Load .env file
-console.log("🔍 Loaded URI:", process.env.MONGODB_URI); // ✅ DEBUG check
-
+console.log("🔍 Loaded URI:", process.env.MONGODB_URI); // ✅ DEBUG check
 
 const app = express();
 
@@ -49,7 +48,8 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// ✅ 5. Start the server
-app.listen(3000, () => {
-  console.log('🚀 Server running at http://localhost:3000');
+// ✅ 5. Start the server with dynamic PORT
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(🚀 Server running on port ${PORT});
 });
