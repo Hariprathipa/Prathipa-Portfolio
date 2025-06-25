@@ -2,13 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-require('dotenv').config(); // ✅ Load .env file
+require('dotenv').config();
 
-console.log("🔍 Loaded URI:", process.env.MONGODB_URI); // ✅ Debug check
+console.log("🔍 Loaded URI:", process.env.MONGODB_URI);
 
 const app = express();
 
-// ✅ 1. Connect to MongoDB
+// ✅ Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.error("❌ MongoDB Connection Error:", err);
 });
 
-// ✅ 2. Create Schema + Model
+// ✅ Schema + Model
 const contactSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -28,19 +28,22 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model('Contact', contactSchema);
 
-// ✅ 3. Middleware
+// ✅ Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ✅ 4. POST route to save form data
+// ✅ Serve index.html on /
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// ✅ POST route to save contact
 app.post('/contact', async (req, res) => {
   try {
     const { name, email, mobile, message } = req.body;
-
     const newContact = new Contact({ name, email, mobile, message });
-    await newContact.save(); // ✅ Save to MongoDB
-
+    await newContact.save();
     console.log("✅ Message saved:", newContact);
     res.send('✅ Message received and saved to MongoDB!');
   } catch (error) {
@@ -49,8 +52,8 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// ✅ 5. Start the server
+// ✅ Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(🚀 Server running on port ${PORT});
 });
