@@ -2,47 +2,45 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-require('dotenv').config(); // Load .env variables
-
-console.log("🔍 Loaded URI:", process.env.MONGODB_URI); // Debug MongoDB URI
+require('dotenv').config(); // Load .env
 
 const app = express();
 
-// ✅ 1. MongoDB Connection
+// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-})
-.then(() => {
+}).then(() => {
   console.log("✅ MongoDB Connected");
-})
-.catch(err => {
-  console.error("❌ MongoDB Connection Error:", err.message);
+}).catch(err => {
+  console.error("❌ MongoDB Connection Error:", err);
 });
 
-// ✅ 2. Contact Schema and Model
+// ✅ Define Schema
 const contactSchema = new mongoose.Schema({
   name: String,
   email: String,
   mobile: String,
   message: String,
 });
-
 const Contact = mongoose.model('Contact', contactSchema);
 
-// ✅ 3. Middleware
+// ✅ Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public'))); // Serve frontend files
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
-// ✅ 4. POST Route for Contact Form
+// ✅ Prevent direct access to server.js
+app.get('/server.js', (req, res) => {
+  res.status(403).send('❌ Access denied.');
+});
+
+// ✅ POST /contact
 app.post('/contact', async (req, res) => {
   try {
     const { name, email, mobile, message } = req.body;
-
     const newContact = new Contact({ name, email, mobile, message });
     await newContact.save();
-
     console.log("✅ Message saved:", newContact);
     res.status(200).send('✅ Message received and saved to MongoDB!');
   } catch (error) {
@@ -51,7 +49,7 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// ✅ 5. Start Server
+// ✅ Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(🚀 Server running on port ${PORT});
